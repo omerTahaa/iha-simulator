@@ -27,16 +27,17 @@ Bu simülasyonun çalışması için **iki ayrı komut istemcisi (terminal)** a�
 (Webcam erişimine izin vermeniz istenebilir)
 ```bash
 python simulator.py
+```
 Bu terminalde İHA'nın çalıştığını ve YKİ bağlantısı beklediğini göreceksiniz.
 
-2. Terminal: Yer Kontrol İstasyonunu Başlatın
+**2. Terminal: Yer Kontrol İstasyonunu Başlatın
 
-Bash
-
+````bash
 python yki.py
+````
 Bu terminalde, sürekli güncellenen telemetri verileri (konum, pil vb.) görünecek ve "İHA Video Akışı" adlı ayrı bir pencerede webcam görüntünüz canlı olarak yayınlanacaktır.
 
-Çıkış Yapma
+**Çıkış Yapma
 Simülasyonu durdurmak için:
 
 YKİ tarafında, video penceresi aktifken (seçiliyken) klavyeden 'q' tuşuna basın.
