@@ -100,28 +100,44 @@ class YerKontrolIstasyonu:
     def start(self):
         telemetry_thread = threading.Thread(target=self._receive_telemetry, daemon=True)
         video_thread = threading.Thread(target=self._receive_video, daemon=True)
-        
+
         telemetry_thread.start()
         video_thread.start()
-        
+
         print("Ana arayüz başlatıldı.")
-        
+
+        window_name = "IHA Video Akisi (Cikis icin Q tusuna basin)"
+        window_created = False 
+
         try:
             while not self.stop_event.is_set():
                 self._display_cli()
-                
+
+                frame_to_show = None
                 with self.frame_lock:
-                    frame = self.current_frame
-                
-                if frame is not None:
-                    cv2.imshow("İHA Video Akışı (Çıkış için Q'ya basın)", frame)
-                
-                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    if self.current_frame is not None:
+                        frame_to_show = self.current_frame.copy()
+
+                if frame_to_show is not None:
+                    cv2.imshow(window_name, frame_to_show)
+                    window_created = True 
+                key_pressed = cv2.waitKey(1) & 0xFF
+
+                if key_pressed == ord('q'):
                     print("Çıkış Yapılıyor...")
                     break
-                    
+
+                if window_created:
+                    try:
+                        if cv2.getWindowProperty(window_name, cv2.WND_PROP_VISIBLE) < 1:
+                            print("Video penceresi kapatıldı.")
+                            break
+                    except cv2.error:
+                        print("Video penceresi kapatıldı.")
+                        break
+
                 time.sleep(0.5)
-                
+
         except KeyboardInterrupt:
             print("Ctrl+C ile kapatılıyor...")
         finally:
