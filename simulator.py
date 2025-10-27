@@ -63,7 +63,7 @@ class IHASimulator:
             self.telemetry_socket.listen(1)
             conn, addr = self.telemetry_socket.accept()
             with conn:
-                print(f"[İHA-Telemetri] YKİ bağlandı: {addr}")
+                print(f"YKİ bağlandı: {addr}")
                 while not self.stop_event.is_set():
                     self._update_telemetry()
                     
